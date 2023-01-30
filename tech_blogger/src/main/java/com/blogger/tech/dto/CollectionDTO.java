@@ -1,6 +1,7 @@
 package com.blogger.tech.dto;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,4 +53,28 @@ public class CollectionDTO {
 						.collect(Collectors.toSet());
 		}
 	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(articleDTOList, createdAt, description, id, name, updatedAt, userDTO);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CollectionDTO other = (CollectionDTO) obj;
+		return Objects.equals(articleDTOList, other.articleDTOList) && Objects.equals(createdAt, other.createdAt)
+				&& Objects.equals(description, other.description) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name) && Objects.equals(updatedAt, other.updatedAt)
+				&& Objects.equals(userDTO, other.userDTO);
+	}
+	
+	
 }

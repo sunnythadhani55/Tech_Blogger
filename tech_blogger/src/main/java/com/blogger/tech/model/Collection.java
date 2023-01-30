@@ -1,6 +1,7 @@
 package com.blogger.tech.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -66,5 +67,29 @@ public class Collection {
 		this.updatedAt=LocalDateTime.now();
 		
 	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(articleList, createdAt, description, id, name, updatedAt, user);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Collection other = (Collection) obj;
+		return Objects.equals(articleList, other.articleList) && Objects.equals(createdAt, other.createdAt)
+				&& Objects.equals(description, other.description) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name) && Objects.equals(updatedAt, other.updatedAt)
+				&& Objects.equals(user, other.user);
+	}
+	
+	
 	
 }

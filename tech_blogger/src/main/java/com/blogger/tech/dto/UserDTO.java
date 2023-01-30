@@ -1,6 +1,7 @@
 package com.blogger.tech.dto;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -88,5 +89,30 @@ public class UserDTO {
 		
 	}
 
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(articleDTOList, collectionDTOList, createdAt, email, firstname, id, lastname, password,
+				tagDTOList, updatedAt, userRole, username);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserDTO other = (UserDTO) obj;
+		return Objects.equals(articleDTOList, other.articleDTOList)
+				&& Objects.equals(collectionDTOList, other.collectionDTOList)
+				&& Objects.equals(createdAt, other.createdAt) && Objects.equals(email, other.email)
+				&& Objects.equals(firstname, other.firstname) && Objects.equals(id, other.id)
+				&& Objects.equals(lastname, other.lastname) && Objects.equals(password, other.password)
+				&& Objects.equals(tagDTOList, other.tagDTOList) && Objects.equals(updatedAt, other.updatedAt)
+				&& userRole == other.userRole && Objects.equals(username, other.username);
+	}
 	
 }

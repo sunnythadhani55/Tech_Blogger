@@ -35,7 +35,7 @@ public class TagServiceImpl implements TagService{
 	}
 
 	@Override
-	public TagDTO getById(Long tagId) throws ResourceNotFoundException {
+	public TagDTO getById(Long tagId){
 		Tag tag=tagRepository.findById(tagId)
 					.orElseThrow(() -> new ResourceNotFoundException("Tag", "Id", tagId.toString()));
 					
@@ -43,32 +43,32 @@ public class TagServiceImpl implements TagService{
 	}
 
 	@Override
-	public TagDTO add(TagDTO tagDTO) throws ResourceAlreadyExists {		
+	public TagDTO add(TagDTO tagDTO){		
 		if(tagRepository.existsByName(tagDTO.getName())) {
 			throw new ResourceAlreadyExists("Tag");
 		}
 		
 		Tag tag=new Tag(tagDTO, false, false);
-		tagRepository.save(tag);
+		tag=tagRepository.save(tag);
 		
 		return new TagDTO(tag, false, false);
 	}
 
 	@Override
-	public TagDTO update(TagDTO tagDTO) throws ResourceNotFoundException {
+	public TagDTO update(TagDTO tagDTO){
 		Tag tag=tagRepository.findById(tagDTO.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("Tag", "Id", tagDTO.getId().toString()));
 		
 		tagDTO.setCreatedAt(tag.getCreatedAt());
 		tag=new Tag(tagDTO, false, false);
 		
-		tagRepository.save(tag);
+		tag=tagRepository.save(tag);
 		
 		return new TagDTO(tag, false, true);
 	}
 
 	@Override
-	public void deleteById(Long tagId) throws ResourceNotFoundException {
+	public void deleteById(Long tagId){
 		if(tagRepository.existsById(tagId))
 			tagRepository.deleteById(tagId);
 		else
@@ -76,7 +76,7 @@ public class TagServiceImpl implements TagService{
 	}
 
 	@Override
-	public void subscribe(Long tagId, Long userId) throws ResourceNotFoundException {
+	public void subscribe(Long tagId, Long userId){
 		Optional<User> user=userRepository.findById(userId);
 		
 		Tag tag=tagRepository.findById(tagId)
@@ -88,7 +88,7 @@ public class TagServiceImpl implements TagService{
 	}
 	
 	@Override
-	public void unsubscribe(Long tagId, Long userId) throws ResourceNotFoundException {
+	public void unsubscribe(Long tagId, Long userId){
 		Optional<User> user=userRepository.findById(userId);
 		
 		Tag tag=tagRepository.findById(tagId)

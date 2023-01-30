@@ -1,6 +1,7 @@
 package com.blogger.tech.dto;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -61,5 +62,26 @@ public class ArticleStatusHistoryDTO {
 			this.articleDTO=new ArticleDTO(article, false, false, false);
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(articleDTO, currentStatus, id, message, updatedAt, userDTO);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArticleStatusHistoryDTO other = (ArticleStatusHistoryDTO) obj;
+		return Objects.equals(articleDTO, other.articleDTO) && currentStatus == other.currentStatus
+				&& Objects.equals(id, other.id) && Objects.equals(message, other.message)
+				&& Objects.equals(updatedAt, other.updatedAt) && Objects.equals(userDTO, other.userDTO);
+	}
+	
+	
 	
 }

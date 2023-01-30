@@ -2,6 +2,7 @@ package com.blogger.tech.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotEmpty;
@@ -75,5 +76,29 @@ public class ArticleDTO {
 		}
 
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(articleStatusHistoryDTOList, collectionDTOList, content, createdAt, id, status, tagDTOList,
+				title, updatedAt, userDTO);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArticleDTO other = (ArticleDTO) obj;
+		return Objects.equals(articleStatusHistoryDTOList, other.articleStatusHistoryDTOList)
+				&& Objects.equals(collectionDTOList, other.collectionDTOList) && Objects.equals(content, other.content)
+				&& Objects.equals(createdAt, other.createdAt) && Objects.equals(id, other.id) && status == other.status
+				&& Objects.equals(tagDTOList, other.tagDTOList) && Objects.equals(title, other.title)
+				&& Objects.equals(updatedAt, other.updatedAt) && Objects.equals(userDTO, other.userDTO);
+	}
+	
+	
 	
 }

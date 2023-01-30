@@ -2,6 +2,7 @@ package com.blogger.tech.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import com.blogger.tech.dto.TagDTO;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +30,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
+@Builder
 public class Tag {
 
 	@Id
@@ -62,5 +65,28 @@ public class Tag {
 		this.updatedAt=LocalDateTime.now();
 			
 	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(articleList, createdAt, id, name, updatedAt, userList);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tag other = (Tag) obj;
+		return Objects.equals(articleList, other.articleList) && Objects.equals(createdAt, other.createdAt)
+				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(updatedAt, other.updatedAt) && Objects.equals(userList, other.userList);
+	}
+	
+	
 	
 }

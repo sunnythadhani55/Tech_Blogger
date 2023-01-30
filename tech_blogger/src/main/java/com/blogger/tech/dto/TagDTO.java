@@ -2,6 +2,7 @@ package com.blogger.tech.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotEmpty;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import com.blogger.tech.model.Tag;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +21,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class TagDTO {
 
 	private Long id;
@@ -52,6 +55,26 @@ public class TagDTO {
 						.map(article -> new ArticleDTO(article, true, true, false))
 						.collect(Collectors.toList());
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(articleDTOList, createdAt, id, name, updatedAt, userDTOList);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TagDTO other = (TagDTO) obj;
+		return Objects.equals(articleDTOList, other.articleDTOList) && Objects.equals(createdAt, other.createdAt)
+				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(updatedAt, other.updatedAt) && Objects.equals(userDTOList, other.userDTOList);
 	}	
 	
 }

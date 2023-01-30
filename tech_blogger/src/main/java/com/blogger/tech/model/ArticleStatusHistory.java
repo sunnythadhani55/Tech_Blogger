@@ -1,6 +1,7 @@
 package com.blogger.tech.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -69,5 +70,26 @@ public class ArticleStatusHistory {
 		
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(article, currentStatus, id, message, updatedAt, user);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArticleStatusHistory other = (ArticleStatusHistory) obj;
+		return Objects.equals(article, other.article) && currentStatus == other.currentStatus
+				&& Objects.equals(id, other.id) && Objects.equals(message, other.message)
+				&& Objects.equals(updatedAt, other.updatedAt) && Objects.equals(user, other.user);
+	}
+
+	
+	
 }
 
