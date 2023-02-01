@@ -24,55 +24,55 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/v1/tags")
 @RequiredArgsConstructor
 public class TagController {
-	
-	private final TagService tagService;
-	
-	@GetMapping
-	public List<TagDTO> getAll(){
-		return tagService.getAll();
-	} 
-	
-	@GetMapping("/{tagId}")
-	public TagDTO getById(@PathVariable Long tagId) {
-		return tagService.getById(tagId);
-	}
-	
-	@GetMapping("/user")
-	public List<TagDTO> getAllSubscribed(){
-		Long userId=1L;
-		return tagService.getAllSubscribed(userId);
-	}
-	
-	@PostMapping
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public TagDTO add(@Valid @RequestBody TagDTO tagDTO) {
-		return tagService.add(tagDTO);
-	}
-	
-	@PutMapping
-	public TagDTO update(@RequestBody TagDTO tagDTO) {
-		return tagService.update(tagDTO);
-	}
-	
-	@DeleteMapping("/{tagId}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void deleteById(@PathVariable Long tagId) {
-		tagService.deleteById(tagId);
-	}
-	
-	@PostMapping("/subscribe/{tagId}")
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public void subscribe(@PathVariable Long tagId) {
-		Long userId=1L;
-		tagService.subscribe(tagId, userId);
-	}
-	
-	@DeleteMapping("/unsubscribe/{tagId}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void unsubscribe(@PathVariable Long tagId) {
-		Long userId=1L;
-		tagService.unsubscribe(tagId, userId);
-	}
-	
+
+  private final TagService tagService;
+
+  @GetMapping
+  public List<TagDTO> getAll() {
+    return tagService.getAll();
+  }
+
+  @GetMapping("/{tagId}")
+  public TagDTO getById(@PathVariable Long tagId) {
+    return tagService.getById(tagId);
+  }
+
+  @GetMapping("/user")
+  public List<TagDTO> getAllSubscribed() {
+    Long userId = 1L;
+    return tagService.getAllSubscribed(userId);
+  }
+
+  @PostMapping
+  @ResponseStatus(code = HttpStatus.CREATED)
+  public TagDTO add(@Valid @RequestBody TagDTO tagDTO) {
+    return tagService.add(tagDTO);
+  }
+
+  @PutMapping
+  public TagDTO update(@RequestBody TagDTO tagDTO) {
+    return tagService.update(tagDTO);
+  }
+
+  @DeleteMapping("/{tagId}")
+  @ResponseStatus(code = HttpStatus.NO_CONTENT)
+  public void deleteById(@PathVariable Long tagId) {
+    tagService.deleteById(tagId);
+  }
+
+  @PostMapping("/subscribe/{tagId}")
+  @ResponseStatus(code = HttpStatus.CREATED)
+  public void subscribe(@PathVariable Long tagId) {
+    Long userId = 1L;
+    tagService.subscribe(tagId, userId);
+  }
+
+  @DeleteMapping("/unsubscribe/{tagId}")
+  @ResponseStatus(code = HttpStatus.NO_CONTENT)
+  public void unsubscribe(@PathVariable Long tagId) {
+    Long userId = 1L;
+    tagService.unsubscribe(tagId, userId);
+  }
+
 
 }
