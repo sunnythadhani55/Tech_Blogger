@@ -19,6 +19,7 @@ import javax.persistence.SequenceGenerator;
 import com.blogger.tech.dto.CollectionDTO;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
+@Builder
 public class Collection {
 
   @Id

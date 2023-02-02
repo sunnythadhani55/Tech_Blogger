@@ -212,6 +212,7 @@ public class ArticleServiceTest {
     verify(articleStatusHistoryRepoistory, times(1)).save(any(ArticleStatusHistory.class));
   }
 
+  //Test cases related to update Article
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
   void should_update_Article_and_not_create_ArticleStatusHistory_DRAFT_to_DRAFT() {
@@ -936,31 +937,6 @@ public class ArticleServiceTest {
         () -> articleService.getPublishedArticlesByTag(tagId));
     assertEquals("Tag does not exists for Id 50", exception.getMessage());
   }
-
-  // @Override
-  // public void updateStatus(ArticleStatusHistoryDTO articleStatusHistoryDTO, Long userId) {
-  //
-  // Long articleId = articleStatusHistoryDTO.getArticleDTO().getId();
-  //
-  // Article article = articleRepository.findById(articleId)
-  // .orElseThrow(() -> new ResourceNotFoundException("Article", "Id", articleId.toString()));
-  //
-  //
-  // switch (article.getStatus()) {
-  // case UNDER_REVIEW:
-  // switch (articleStatusHistoryDTO.getCurrentStatus()) {
-  // case REJECTED, PUBLISHED:
-  // articleRepository.updateStatus(articleStatusHistoryDTO.getCurrentStatus(), articleId);
-  // article.setStatus(articleStatusHistoryDTO.getCurrentStatus());
-  // article.setUpdatedAt(LocalDateTime.now());
-  // articleStatusHistoryDTO = new ArticleStatusHistoryDTO(article, true, true);
-  // createStatusHistory(articleStatusHistoryDTO);
-  // break;
-  // }
-  // break;
-  // }
-  // }
-  //
 
   // Test cases related to updating status by admin
   @Test

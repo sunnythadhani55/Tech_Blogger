@@ -79,7 +79,7 @@ public class CollectionServiceImpl implements CollectionService {
 
     collection.setArticleList(articles);
 
-    collectionRepository.save(collection);
+    collection=collectionRepository.save(collection);
 
     return new CollectionDTO(collection, true, true);
   }
@@ -110,7 +110,7 @@ public class CollectionServiceImpl implements CollectionService {
 
     collection.setArticleList(articles);
 
-    collectionRepository.save(collection);
+    collection=collectionRepository.save(collection);
 
     return new CollectionDTO(collection, true, true);
   }

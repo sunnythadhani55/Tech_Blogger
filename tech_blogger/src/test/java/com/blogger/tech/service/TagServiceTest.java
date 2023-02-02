@@ -273,7 +273,6 @@ public class TagServiceTest {
 
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-
     List<TagDTO> expectedTagDTOList = tagDTOList;
     List<TagDTO> actualTagDTOList = tagService.getAllSubscribed(userId);
     assertEquals(expectedTagDTOList, actualTagDTOList);
