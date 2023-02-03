@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import com.blogger.tech.enums.UserRoles;
+import com.blogger.tech.enums.UserRole;
 import com.blogger.tech.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ public class UserDTO {
   private LocalDateTime updatedAt;
 
   @Enumerated(EnumType.STRING)
-  private UserRoles userRole;
+  private UserRole userRole;
 
   private List<TagDTO> tagDTOList;
 

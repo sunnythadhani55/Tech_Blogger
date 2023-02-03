@@ -21,7 +21,7 @@ import com.blogger.tech.dto.ArticleDTO;
 import com.blogger.tech.dto.CollectionDTO;
 import com.blogger.tech.dto.UserDTO;
 import com.blogger.tech.enums.ArticleStatus;
-import com.blogger.tech.enums.UserRoles;
+import com.blogger.tech.enums.UserRole;
 import com.blogger.tech.exception.ResourceNotFoundException;
 import com.blogger.tech.exception.UnauthorizedException;
 import com.blogger.tech.model.Article;
@@ -117,7 +117,7 @@ public class CollectionServiceTest {
     Long userId = 1L;
 
     User user = new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -136,10 +136,10 @@ public class CollectionServiceTest {
     Long collectionId = 1L;
 
     User user = new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     UserDTO userDTO = new UserDTO(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        null, timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        null, timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     List<Collection> collectionList = new ArrayList();
 
@@ -173,7 +173,7 @@ public class CollectionServiceTest {
     Long collectionId = 5L;
 
     User user = new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -190,10 +190,10 @@ public class CollectionServiceTest {
     Long collectionId = 4L;
 
     User user = new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     UserDTO userDTO = new UserDTO(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        null, timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        null, timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     List<Collection> collectionList = new ArrayList();
 
@@ -227,10 +227,10 @@ public class CollectionServiceTest {
         .articleDTOList(articleDTOList).build();
     
     User user = new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     UserDTO userDTO=new UserDTO(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        null, timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        null, timeStamp, timeStamp, UserRole.READER, null, null, null);
     
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -268,10 +268,10 @@ public class CollectionServiceTest {
         .articleDTOList(articleDTOList).build();
     
     User user = new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     UserDTO userDTO=new UserDTO(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        null, timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        null, timeStamp, timeStamp, UserRole.READER, null, null, null);
     
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -301,10 +301,10 @@ public class CollectionServiceTest {
         .articleDTOList(articleDTOList).build();
     
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     UserDTO userDTO=new UserDTO(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        null, timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        null, timeStamp, timeStamp, UserRole.READER, null, null, null);
     
     Collection existingCollection= new Collection(collectionId, "Core Java", "This collections contains core java related articles",
         timeStamp, timeStamp, user, articleList);
@@ -367,10 +367,10 @@ public class CollectionServiceTest {
         .articleDTOList(articleDTOList).build();
     
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     UserDTO userDTO=new UserDTO(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        null, timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        null, timeStamp, timeStamp, UserRole.READER, null, null, null);
     
     Collection existingCollection= new Collection(collectionId, "Core Java", "This collections contains core java related articles",
         timeStamp, timeStamp, user, articleList);
@@ -401,7 +401,7 @@ public class CollectionServiceTest {
     Long collectionId=1L;
     
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     when(userRepository.findById(userId))
       .thenReturn(Optional.of(user));
@@ -420,7 +420,7 @@ public class CollectionServiceTest {
     Long collectionId=20L;
     
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     when(userRepository.findById(userId))
       .thenReturn(Optional.of(user));

@@ -51,7 +51,7 @@ public class Collection {
   @JoinColumn(name = "user_id")
   private User user;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(name = "collection_article", joinColumns = @JoinColumn(name = "collection_id"),
       inverseJoinColumns = @JoinColumn(name = "article_id"))
   private List<Article> articleList;

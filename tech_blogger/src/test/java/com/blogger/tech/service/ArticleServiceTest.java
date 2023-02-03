@@ -24,7 +24,7 @@ import com.blogger.tech.dto.ArticleStatusHistoryDTO;
 import com.blogger.tech.dto.TagDTO;
 import com.blogger.tech.dto.UserDTO;
 import com.blogger.tech.enums.ArticleStatus;
-import com.blogger.tech.enums.UserRoles;
+import com.blogger.tech.enums.UserRole;
 import com.blogger.tech.exception.IllegalStatusException;
 import com.blogger.tech.exception.ResourceNotFoundException;
 import com.blogger.tech.model.Article;
@@ -94,11 +94,11 @@ public class ArticleServiceTest {
     userList = new ArrayList<>();
 
     userList.add(new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.WRITER, null, null, null));
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.WRITER, null, null, null));
     userList.add(new User(2L, "ankitgupta@gmail.com", "Ankit", "Gupta", "Ankit123",
-        "usdasddfsdasdda", timeStamp, timeStamp, UserRoles.ADMIN, null, null, null));
+        "usdasddfsdasdda", timeStamp, timeStamp, UserRole.ADMIN, null, null, null));
     userList.add(new User(3L, "vishalsharma@gmail.com", "Vishal", "Sharma", "Vishal123",
-        "oioioioioiohhjkh", timeStamp, timeStamp, UserRoles.READER, null, null, null));
+        "oioioioioiohhjkh", timeStamp, timeStamp, UserRole.READER, null, null, null));
 
     // Creating test data as List of User DTOs
     userDTOList = new ArrayList<>();
@@ -878,7 +878,7 @@ public class ArticleServiceTest {
 
     User user = User.builder().id(1L).email("sunnythadhani87@gmail.com").firstName("Sunny")
         .lastName("Thadhani").username("Sunny123").password("dhaskhdilldalskk").createdAt(timeStamp)
-        .updatedAt(timeStamp).userRole(UserRoles.WRITER).articleList(inputArticleList).build();
+        .updatedAt(timeStamp).userRole(UserRole.WRITER).articleList(inputArticleList).build();
 
     List<ArticleDTO> expectedArticleDTOList = Arrays.asList(
         new ArticleDTO(1L, "Title 1", "Content 1", ArticleStatus.PUBLISHED, timeStamp, timeStamp,

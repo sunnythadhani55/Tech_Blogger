@@ -9,7 +9,6 @@ import com.blogger.tech.exception.ResourceNotFoundException;
 
 public interface ArticleService {
 
-
   List<ArticleDTO> getAll();
 
   ArticleDTO getById(Long articleId) throws ResourceNotFoundException;

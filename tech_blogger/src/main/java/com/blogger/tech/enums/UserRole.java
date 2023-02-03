@@ -1,5 +1,5 @@
 package com.blogger.tech.enums;
 
-public enum UserRoles {
+public enum UserRole {
   READER, WRITER, ADMIN
 }

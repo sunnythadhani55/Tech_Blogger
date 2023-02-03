@@ -17,7 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.blogger.tech.dto.TagDTO;
-import com.blogger.tech.enums.UserRoles;
+import com.blogger.tech.enums.UserRole;
 import com.blogger.tech.exception.ResourceAlreadyExists;
 import com.blogger.tech.exception.ResourceNotFoundException;
 import com.blogger.tech.model.Tag;
@@ -53,11 +53,11 @@ public class TagServiceTest {
     userList = new ArrayList<>();
 
     userList.add(new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.WRITER, null, null, null));
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.WRITER, null, null, null));
     userList.add(new User(2L, "ankitgupta@gmail.com", "Ankit", "Gupta", "Ankit123",
-        "usdasddfsdasdda", timeStamp, timeStamp, UserRoles.ADMIN, null, null, null));
+        "usdasddfsdasdda", timeStamp, timeStamp, UserRole.ADMIN, null, null, null));
     userList.add(new User(3L, "vishalsharma@gmail.com", "Vishal", "Sharma", "Vishal123",
-        "oioioioioiohhjkh", timeStamp, timeStamp, UserRoles.READER, null, null, null));
+        "oioioioioiohhjkh", timeStamp, timeStamp, UserRole.READER, null, null, null));
 
     // Creating test data as List of Tags
     tagList = new ArrayList<>();
@@ -196,7 +196,7 @@ public class TagServiceTest {
     Long tagId = 1L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     Tag tag = new Tag(1L, "Youtube", timeStamp, timeStamp, userList, null);
 
@@ -215,7 +215,7 @@ public class TagServiceTest {
     Long tagId = 50L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -233,7 +233,7 @@ public class TagServiceTest {
     Long tagId = 1L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     Tag tag = new Tag(1L, "Youtube", timeStamp, timeStamp, userList, null);
 
@@ -252,7 +252,7 @@ public class TagServiceTest {
     Long tagId = 50L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -269,7 +269,7 @@ public class TagServiceTest {
     Long userId = 1L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, tagList, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, tagList, null, null);
 
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
