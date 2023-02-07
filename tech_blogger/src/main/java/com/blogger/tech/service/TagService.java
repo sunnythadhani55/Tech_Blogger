@@ -2,7 +2,7 @@ package com.blogger.tech.service;
 
 import java.util.List;
 import com.blogger.tech.dto.TagDTO;
-import com.blogger.tech.exception.ResourceAlreadyExists;
+import com.blogger.tech.exception.ResourceAlreadyExistsException;
 import com.blogger.tech.exception.ResourceNotFoundException;
 
 public interface TagService {
@@ -13,7 +13,7 @@ public interface TagService {
 
   List<TagDTO> getAllSubscribed(Long userId);
 
-  TagDTO add(TagDTO tagDTO) throws ResourceAlreadyExists;
+  TagDTO add(TagDTO tagDTO) throws ResourceAlreadyExistsException;
 
   TagDTO update(TagDTO tagDTO) throws ResourceNotFoundException;
 

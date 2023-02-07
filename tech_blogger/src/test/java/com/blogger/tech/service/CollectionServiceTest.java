@@ -113,7 +113,7 @@ public class CollectionServiceTest {
 
   // getAllByUserId method test cases
   @Test
-  void should_find_and_return_all_Collections_for_user() {
+  void testGetAllByUserId_Return_All_Collections_For_User() {
     Long userId = 1L;
 
     User user = new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
@@ -131,7 +131,7 @@ public class CollectionServiceTest {
 
   // FindById method test cases
   @Test
-  void should_find_Collection_by_Id_and_return_Collection() {
+  void testGetById_When_KeyIdExists_Then_Return_Collection() {
     Long userId = 1L;
     Long collectionId = 1L;
 
@@ -168,7 +168,7 @@ public class CollectionServiceTest {
   }
 
   @Test
-  void should_throw_ResourceNotFoundException_when_called_Collection_by_Id_method() {
+  void testGetById_When_KeyId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     Long userId = 1L;
     Long collectionId = 5L;
 
@@ -185,7 +185,7 @@ public class CollectionServiceTest {
   }
 
   @Test
-  void should_throw_UnauthorizedException_when_called_Collection_by_Id_method() {
+  void testGetById_When_KeyId_Does_Not_Exists_For_User_Then_Throw_UnauthorizedException() {
     Long userId = 1L;
     Long collectionId = 4L;
 
@@ -216,22 +216,22 @@ public class CollectionServiceTest {
         () -> collectionService.getById(collectionId, userId));
     assertEquals("User is unauthorized to  access Collection with Id 4", ex.getMessage());
   }
-  
+
   // Test cases related to creating new Collection
   @Test
-  void should_save_one_collection() {
+  void testAdd_When_KeyArticleIdExists_Then_Create_Collection() {
     Long userId = 1L;
 
     CollectionDTO collectionDTO = CollectionDTO.builder().name("Core Java")
         .description("This collections contains core java related articles")
         .articleDTOList(articleDTOList).build();
-    
+
     User user = new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
         "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
-    UserDTO userDTO=new UserDTO(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
+    UserDTO userDTO = new UserDTO(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
         null, timeStamp, timeStamp, UserRole.READER, null, null, null);
-    
+
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
     for (int i = 1; i <= articleList.size(); i++) {
@@ -242,12 +242,11 @@ public class CollectionServiceTest {
     Collection savedCollection =
         new Collection(1L, "Core Java", "This collections contains core java related articles",
             timeStamp, timeStamp, user, articleList);
-   
-    when(collectionRepository.save(any(Collection.class)))
-      .thenReturn(savedCollection);
-    
-    CollectionDTO returnedCollectionDTO=collectionService.add(collectionDTO, userId);
-    
+
+    when(collectionRepository.save(any(Collection.class))).thenReturn(savedCollection);
+
+    CollectionDTO returnedCollectionDTO = collectionService.add(collectionDTO, userId);
+
     assertEquals(collectionDTO.getName(), returnedCollectionDTO.getName());
     assertEquals(collectionDTO.getDescription(), returnedCollectionDTO.getDescription());
     assertEquals(timeStamp, returnedCollectionDTO.getCreatedAt());
@@ -255,78 +254,78 @@ public class CollectionServiceTest {
     assertEquals(userDTO, returnedCollectionDTO.getUserDTO());
     assertEquals(articleDTOList, returnedCollectionDTO.getArticleDTOList());
   }
-  
+
   @Test
-  void should_throw_ResourceNotFoundException_when_called_add_method() {
+  void testAdd_When_KeyArticleId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     Long userId = 1L;
-    Long inputArticleId=20L;
+    Long inputArticleId = 20L;
 
     articleDTOList.add(ArticleDTO.builder().id(inputArticleId).build());
-    
+
     CollectionDTO collectionDTO = CollectionDTO.builder().name("Core Java")
         .description("This collections contains core java related articles")
         .articleDTOList(articleDTOList).build();
-    
+
     User user = new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
         "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
-    UserDTO userDTO=new UserDTO(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
+    UserDTO userDTO = new UserDTO(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
         null, timeStamp, timeStamp, UserRole.READER, null, null, null);
-    
+
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-    when(articleRepository.findById(inputArticleId))
-      .thenReturn(Optional.empty());
-    
+    when(articleRepository.findById(inputArticleId)).thenReturn(Optional.empty());
+
     for (int i = 1; i <= articleList.size(); i++) {
       Long articleId = (long) i;
       when(articleRepository.findById(articleId)).thenReturn(Optional.of(articleList.get(i - 1)));
     }
-    
-    Exception ex=assertThrows(ResourceNotFoundException.class, () -> collectionService.add(collectionDTO, userId));
+
+    Exception ex = assertThrows(ResourceNotFoundException.class,
+        () -> collectionService.add(collectionDTO, userId));
     assertEquals("Article does not exists for Id 20", ex.getMessage());
-    
-    verify(collectionRepository,times(0)).save(any(Collection.class));
+
+    verify(collectionRepository, times(0)).save(any(Collection.class));
   }
-  
-  //Test cases related to update Collection
+
+  // Test cases related to update Collection
   @Test
-  void should_update_collection() {
+  void testUpdate_When_KeyIdExists_Then_Update_Collection() {
     Long userId = 1L;
-    Long collectionId=1L;
+    Long collectionId = 1L;
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
-    
+
     CollectionDTO collectionDTO = CollectionDTO.builder().id(collectionId).name("Advanced Java")
         .description("This collections contains advanced java related articles")
         .articleDTOList(articleDTOList).build();
-    
+
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
         "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
-    UserDTO userDTO=new UserDTO(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        null, timeStamp, timeStamp, UserRole.READER, null, null, null);
-    
-    Collection existingCollection= new Collection(collectionId, "Core Java", "This collections contains core java related articles",
-        timeStamp, timeStamp, user, articleList);
-    
-    Collection updatedCollection= new Collection(collectionId, "Advanced Java", "This collections contains advanced java related articles",
-        timeStamp, updatedTimeStamp, user, articleList);
-    
-    when(collectionRepository.findById(collectionId))
-      .thenReturn(Optional.of(existingCollection));
-    
+    UserDTO userDTO = new UserDTO(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani",
+        "Sunny123", null, timeStamp, timeStamp, UserRole.READER, null, null, null);
+
+    Collection existingCollection = new Collection(collectionId, "Core Java",
+        "This collections contains core java related articles", timeStamp, timeStamp, user,
+        articleList);
+
+    Collection updatedCollection = new Collection(collectionId, "Advanced Java",
+        "This collections contains advanced java related articles", timeStamp, updatedTimeStamp,
+        user, articleList);
+
+    when(collectionRepository.findById(collectionId)).thenReturn(Optional.of(existingCollection));
+
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-    
+
     for (int i = 1; i <= articleList.size(); i++) {
       Long articleId = (long) i;
       when(articleRepository.findById(articleId)).thenReturn(Optional.of(articleList.get(i - 1)));
     }
-    
-    when(collectionRepository.save(any(Collection.class)))
-    .thenReturn(updatedCollection);
-  
-    CollectionDTO returnedCollectionDTO=collectionService.update(collectionDTO, userId);
-    
+
+    when(collectionRepository.save(any(Collection.class))).thenReturn(updatedCollection);
+
+    CollectionDTO returnedCollectionDTO = collectionService.update(collectionDTO, userId);
+
     assertEquals(collectionDTO.getName(), returnedCollectionDTO.getName());
     assertEquals(collectionDTO.getDescription(), returnedCollectionDTO.getDescription());
     assertEquals(timeStamp, returnedCollectionDTO.getCreatedAt());
@@ -334,103 +333,100 @@ public class CollectionServiceTest {
     assertEquals(userDTO, returnedCollectionDTO.getUserDTO());
     assertEquals(articleDTOList, returnedCollectionDTO.getArticleDTOList());
   }
-  
+
   @Test
-  void should_throw_ResourceNotFoundException_for_CollectionId_when_called_update_method() {
+  void testUpdate_When_KeyId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     Long userId = 1L;
-    Long collectionId=50L;
-    
+    Long collectionId = 50L;
+
     CollectionDTO collectionDTO = CollectionDTO.builder().id(collectionId).name("Core Java")
         .description("This collections contains core java related articles")
         .articleDTOList(articleDTOList).build();
-    
-    when(collectionRepository.findById(collectionId))
-      .thenReturn(Optional.empty());
-    
-    Exception ex=assertThrows(ResourceNotFoundException.class, () -> collectionService.update(collectionDTO, userId));
+
+    when(collectionRepository.findById(collectionId)).thenReturn(Optional.empty());
+
+    Exception ex = assertThrows(ResourceNotFoundException.class,
+        () -> collectionService.update(collectionDTO, userId));
     assertEquals("Collection does not exists for Id 50", ex.getMessage());
-    
-    verify(articleRepository,times(0)).findById(anyLong());
-    verify(collectionRepository,times(0)).save(any(Collection.class));
+
+    verify(articleRepository, times(0)).findById(anyLong());
+    verify(collectionRepository, times(0)).save(any(Collection.class));
   }
 
   @Test
-  void should_throw_ResourceNotFoundException_for_ArticleId_when_called_update_method() {
+  void testUpdate_When_KeyArticleId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     Long userId = 1L;
-    Long collectionId=1L;
-    Long inputArticleId=20L;
+    Long collectionId = 1L;
+    Long inputArticleId = 20L;
 
     articleDTOList.add(ArticleDTO.builder().id(inputArticleId).build());
-    
+
     CollectionDTO collectionDTO = CollectionDTO.builder().id(collectionId).name("Advanced Java")
         .description("This collections contains advanced java related articles")
         .articleDTOList(articleDTOList).build();
-    
+
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
         "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
-    UserDTO userDTO=new UserDTO(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        null, timeStamp, timeStamp, UserRole.READER, null, null, null);
-    
-    Collection existingCollection= new Collection(collectionId, "Core Java", "This collections contains core java related articles",
-        timeStamp, timeStamp, user, articleList);
-    
+    UserDTO userDTO = new UserDTO(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani",
+        "Sunny123", null, timeStamp, timeStamp, UserRole.READER, null, null, null);
+
+    Collection existingCollection = new Collection(collectionId, "Core Java",
+        "This collections contains core java related articles", timeStamp, timeStamp, user,
+        articleList);
+
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-    when(articleRepository.findById(inputArticleId))
-      .thenReturn(Optional.empty());
-    
-    when(collectionRepository.findById(collectionId))
-      .thenReturn(Optional.of(existingCollection));
-    
+    when(articleRepository.findById(inputArticleId)).thenReturn(Optional.empty());
+
+    when(collectionRepository.findById(collectionId)).thenReturn(Optional.of(existingCollection));
+
     for (int i = 1; i <= articleList.size(); i++) {
       Long articleId = (long) i;
       when(articleRepository.findById(articleId)).thenReturn(Optional.of(articleList.get(i - 1)));
     }
-    
-    Exception ex=assertThrows(ResourceNotFoundException.class, () -> collectionService.update(collectionDTO, userId));
+
+    Exception ex = assertThrows(ResourceNotFoundException.class,
+        () -> collectionService.update(collectionDTO, userId));
     assertEquals("Article does not exists for Id 20", ex.getMessage());
-    
-    verify(collectionRepository,times(0)).save(any(Collection.class));
+
+    verify(collectionRepository, times(0)).save(any(Collection.class));
   }
-  
-  //Test cases related to deleting Collection By Id
+
+  // Test cases related to deleting Collection By Id
   @Test
-  void deleteCollectionById_ValidInput_ShouldDeleteArticle() {
+  void testDeleteById_When_KeyIdExists_Then_Delete_Colelction() {
     Long userId = 1L;
-    Long collectionId=1L;
-    
+    Long collectionId = 1L;
+
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
         "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
-    when(userRepository.findById(userId))
-      .thenReturn(Optional.of(user));
-    
-    when(collectionRepository.findByUser(user))
-      .thenReturn(collectionList);
-    
+    when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+
+    when(collectionRepository.findByUser(user)).thenReturn(collectionList);
+
     collectionService.deleteById(collectionId, userId);
-    
-    verify(collectionRepository,times(1)).deleteById(collectionId);
+
+    verify(collectionRepository, times(1)).deleteById(collectionId);
   }
-  
+
   @Test
-  void deleteCollectionById_InValidInput_Should_throw_UnauthorizedException() {
+  void testDeleteById_When_KeyId_Does_Not_Exists_Then_Throw_UnauthorizedException() {
     Long userId = 1L;
-    Long collectionId=20L;
-    
+    Long collectionId = 20L;
+
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
         "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
-    when(userRepository.findById(userId))
-      .thenReturn(Optional.of(user));
-    
-    when(collectionRepository.findByUser(user))
-      .thenReturn(collectionList);
-    
-    Exception ex= assertThrows(UnauthorizedException.class, () -> collectionService.deleteById(collectionId, userId));
+    when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+
+    when(collectionRepository.findByUser(user)).thenReturn(collectionList);
+
+    Exception ex = assertThrows(UnauthorizedException.class,
+        () -> collectionService.deleteById(collectionId, userId));
     assertEquals("User is unauthorized to  access Collection with Id 20", ex.getMessage());
-    
-    verify(collectionRepository,times(0)).deleteById(collectionId);
+
+    verify(collectionRepository, times(0)).deleteById(collectionId);
   }
 }

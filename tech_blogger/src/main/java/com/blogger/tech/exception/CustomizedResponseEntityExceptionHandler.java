@@ -47,7 +47,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.UNAUTHORIZED);
   }
 
-  @ExceptionHandler(ResourceAlreadyExists.class)
+  @ExceptionHandler(ResourceAlreadyExistsException.class)
   public final ResponseEntity<ErrorDetails> handleDuplicateRecordException(Exception ex,
       WebRequest request) {
     ErrorDetails errorDetails =
