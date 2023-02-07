@@ -4,17 +4,16 @@ import java.util.List;
 
 import com.blogger.tech.dto.ArticleDTO;
 import com.blogger.tech.dto.ArticleStatusHistoryDTO;
-import com.blogger.tech.exception.ResourceAlreadyExists;
+import com.blogger.tech.exception.ResourceAlreadyExistsException;
 import com.blogger.tech.exception.ResourceNotFoundException;
 
 public interface ArticleService {
-
 
   List<ArticleDTO> getAll();
 
   ArticleDTO getById(Long articleId) throws ResourceNotFoundException;
 
-  ArticleDTO add(ArticleDTO articleDTO, Long userId) throws ResourceAlreadyExists;
+  ArticleDTO add(ArticleDTO articleDTO, Long userId) throws ResourceAlreadyExistsException;
 
   void createStatusHistory(ArticleStatusHistoryDTO articleStatusHistoryDTO);
 

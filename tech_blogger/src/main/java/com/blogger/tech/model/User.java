@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import com.blogger.tech.dto.UserDTO;
-import com.blogger.tech.enums.UserRoles;
+import com.blogger.tech.enums.UserRole;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,8 +36,8 @@ import lombok.ToString;
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BLOGUSER_SEQ")
-  @SequenceGenerator(name = "BLOGUSER_SEQ", sequenceName = "BLOGUSER_SEQ", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
+  @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", allocationSize = 1)
   private Long id;
 
   @Column(unique = true, nullable = false)
@@ -58,7 +58,7 @@ public class User {
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private UserRoles userRole;
+  private UserRole userRole;
 
   @ManyToMany(mappedBy = "userList")
   private List<Tag> tagList;

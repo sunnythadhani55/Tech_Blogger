@@ -36,7 +36,7 @@ public class ArticleController {
 
   @GetMapping("/user")
   public List<ArticleDTO> getAllByUser() {
-    Long userId = 10L;
+    Long userId = 1L;
     return articleService.getAllByUser(userId);
   }
 

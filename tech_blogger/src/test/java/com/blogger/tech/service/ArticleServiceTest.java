@@ -24,7 +24,7 @@ import com.blogger.tech.dto.ArticleStatusHistoryDTO;
 import com.blogger.tech.dto.TagDTO;
 import com.blogger.tech.dto.UserDTO;
 import com.blogger.tech.enums.ArticleStatus;
-import com.blogger.tech.enums.UserRoles;
+import com.blogger.tech.enums.UserRole;
 import com.blogger.tech.exception.IllegalStatusException;
 import com.blogger.tech.exception.ResourceNotFoundException;
 import com.blogger.tech.model.Article;
@@ -94,11 +94,11 @@ public class ArticleServiceTest {
     userList = new ArrayList<>();
 
     userList.add(new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.WRITER, null, null, null));
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.WRITER, null, null, null));
     userList.add(new User(2L, "ankitgupta@gmail.com", "Ankit", "Gupta", "Ankit123",
-        "usdasddfsdasdda", timeStamp, timeStamp, UserRoles.ADMIN, null, null, null));
+        "usdasddfsdasdda", timeStamp, timeStamp, UserRole.ADMIN, null, null, null));
     userList.add(new User(3L, "vishalsharma@gmail.com", "Vishal", "Sharma", "Vishal123",
-        "oioioioioiohhjkh", timeStamp, timeStamp, UserRoles.READER, null, null, null));
+        "oioioioioiohhjkh", timeStamp, timeStamp, UserRole.READER, null, null, null));
 
     // Creating test data as List of User DTOs
     userDTOList = new ArrayList<>();
@@ -138,7 +138,7 @@ public class ArticleServiceTest {
 
   // FindAll method test cases
   @Test
-  void should_find_and_return_all_Articles() {
+  void testGetAll_Return_All_Articles() {
     when(articleRepository.findAll()).thenReturn(articleList);
     List<ArticleDTO> actualArticleDTOList = articleService.getAll();
     assertEquals(4, actualArticleDTOList.size());
@@ -147,7 +147,7 @@ public class ArticleServiceTest {
 
   // FindById method test cases
   @Test
-  void should_find_article_by_Id_and_return_article() {
+  void testGetById_When_KeyIdExists_Then_Return_Article() {
     Long articleId = 1L;
     when(articleRepository.findById(articleId)).thenReturn(Optional.of(articleList.get(0)));
     ArticleDTO actualArticleDTO = articleService.getById(articleId);
@@ -155,7 +155,7 @@ public class ArticleServiceTest {
   }
 
   @Test
-  void should_throw_ResourceNotFoundException_when_find_article_by_id() {
+  void testGetById_When_KeyId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     Long articleId = 20L;
     when(articleRepository.findById(articleId)).thenReturn(Optional.empty());
     Exception exception = assertThrows(ResourceNotFoundException.class,
@@ -166,7 +166,7 @@ public class ArticleServiceTest {
   // Test cases related to creating new Article
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_save_one_Article_and_create_status_history() {
+  void testAdd_Create_Article_And_Article_History() {
 
     List<TagDTO> inputTagDTOList = Arrays.asList(new TagDTO(3L, null, null, null, null, null),
         new TagDTO(5L, null, null, null, null, null));
@@ -212,9 +212,10 @@ public class ArticleServiceTest {
     verify(articleStatusHistoryRepoistory, times(1)).save(any(ArticleStatusHistory.class));
   }
 
+  // Test cases related to update Article
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_update_Article_and_not_create_ArticleStatusHistory_DRAFT_to_DRAFT() {
+  void testUpdate_When_KeyIdExists_Status_From_Draft_To_Draft_Then_Update_Article_But_Not_Create_ArticleStatusHistory() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -271,7 +272,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_update_Article_and_create_ArticleStatusHistory_DRAFT_to_UNDER_REVIEW() {
+  void testUpdate_When_KeyIdExists_Status_From_Draft_To_UnderReview_Then_Update_Article_And_Create_ArticleStatusHistory() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -328,7 +329,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_throw_IllegalStatusException_DRAFT_to_PUBLISHED() {
+  void testUpdate_When_KeyIdExists_Status_From_Draft_To_Published_Then_Throw_IllegalStatusException() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -373,7 +374,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_throw_IllegalStatusException_DRAFT_to_REJECTED() {
+  void testUpdate_When_KeyIdExists_Status_From_Draft_To_Rejected_Then_Throw_IllegalStatusException() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -418,7 +419,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_update_Article_and_create_ArticleStatusHistory_UNDER_REVIEW_to_DRAFT() {
+  void testUpdate_When_KeyIdExists_Status_From_UnderReview_To_Draft_Then_Update_Article_And_Create_ArticleStatusHistory() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -475,7 +476,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_update_Article_and_not_create_ArticleStatusHistory_UNDER_REVIEW_to_UNDER_REVIEW() {
+  void testUpdate_When_KeyIdExists_Status_From_UnderReview_To_UnderReview_Then_Update_Article_But_Not_Create_ArticleStatusHistory() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -532,7 +533,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_throw_IllegalStatusException_UNDER_REVIEW_to_PUBLISHED() {
+  void testUpdate_When_KeyIdExists_Status_From_UnderReview_To_Published_Then_Throw_IllegalStatusException() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -577,7 +578,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_throw_IllegalStatusException_UNDER_REVIEW_to_REJECTED() {
+  void testUpdate_When_KeyIdExists_Status_From_UnderReview_To_Rejected_Then_Throw_IllegalStatusException() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -622,7 +623,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_update_Article_and_create_ArticleStatusHistory_REJECTED_to_DRAFT() {
+  void testUpdate_When_KeyIdExists_Status_From_Rejected_To_Draft_Then_Update_Article_And_Create_ArticleStatusHistory() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -679,7 +680,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_update_Article_and_create_ArticleStatusHistory_REJECTED_to_UNDER_REVIEW() {
+  void testUpdate_When_KeyIdExists_Status_From_Rejected_To_UnderReview_Then_Update_Article_And_Create_ArticleStatusHistory() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -736,7 +737,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_update_Article_and_not_create_ArticleStatusHistory_REJECTED_to_REJECTED() {
+  void testUpdate_When_KeyIdExists_Status_From_Rejected_To_Rejected_Then_Update_Article_But_Not_Create_ArticleStatusHistory() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -793,7 +794,7 @@ public class ArticleServiceTest {
 
   @Test
   @MockitoSettings(strictness = Strictness.LENIENT)
-  void should_throw_IllegalStatusException_REJECTED_to_PUBLISHED() {
+  void testUpdate_When_KeyIdExists_Status_From_Rejected_To_Published_Then_Throw_IllegalStatusException() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -837,7 +838,7 @@ public class ArticleServiceTest {
   }
 
   @Test
-  void should_throw_ResourceNotFoundException_when_called_update_method() {
+  void testUpdate_When_KeyId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
 
     Long articleId = 50L;
     when(articleRepository.findById(articleId)).thenReturn(Optional.empty());
@@ -848,7 +849,7 @@ public class ArticleServiceTest {
 
   // Test cases related to deleting Article By Id
   @Test
-  void deleteArticleById_ValidInput_ShouldDeleteArticle() {
+  void testDeleteById_When_KeyIdExists_Then_Delete_Article() {
     Long id = 5L;
     when(articleRepository.existsById(id)).thenReturn(true);
     articleService.deleteById(id);
@@ -856,7 +857,7 @@ public class ArticleServiceTest {
   }
 
   @Test
-  void deleteArticleById_InValidInput_Shouldthrow_ResourceNotFoundException() {
+  void testDeleteById_When_KeyId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     Long id = 50L;
     when(articleRepository.existsById(id)).thenReturn(false);
 
@@ -866,7 +867,7 @@ public class ArticleServiceTest {
   }
 
   @Test
-  void should_return_all_articles_written_by_user() {
+  void testGetAllByUser_Return_All_Articles_Wrtitten_By_User() {
     Long userId = 1L;
 
     List<Article> inputArticleList = Arrays.asList(
@@ -877,7 +878,7 @@ public class ArticleServiceTest {
 
     User user = User.builder().id(1L).email("sunnythadhani87@gmail.com").firstName("Sunny")
         .lastName("Thadhani").username("Sunny123").password("dhaskhdilldalskk").createdAt(timeStamp)
-        .updatedAt(timeStamp).userRole(UserRoles.WRITER).articleList(inputArticleList).build();
+        .updatedAt(timeStamp).userRole(UserRole.WRITER).articleList(inputArticleList).build();
 
     List<ArticleDTO> expectedArticleDTOList = Arrays.asList(
         new ArticleDTO(1L, "Title 1", "Content 1", ArticleStatus.PUBLISHED, timeStamp, timeStamp,
@@ -895,7 +896,7 @@ public class ArticleServiceTest {
   }
 
   @Test
-  void should_return_published_articles_by_article() {
+  void testGetPublishedArticlesByTag_When_KeyTagIdExists_Return_All_Articles_By_Tag() {
     Long tagId = 1L;
 
     List<Article> inputArticleList = Arrays.asList(
@@ -928,7 +929,7 @@ public class ArticleServiceTest {
   }
 
   @Test
-  void should_throw_ResourceNotFoundException_when_called_getPublishedArticlesByTag_method() {
+  void testGetPublishedArticlesByTag_When_KeyTagId_Does_Not_Exists_Throw_ResourceNotFoundException() {
     Long tagId = 50L;
     when(tagRepository.findById(tagId)).thenReturn(Optional.empty());
 
@@ -937,34 +938,9 @@ public class ArticleServiceTest {
     assertEquals("Tag does not exists for Id 50", exception.getMessage());
   }
 
-  // @Override
-  // public void updateStatus(ArticleStatusHistoryDTO articleStatusHistoryDTO, Long userId) {
-  //
-  // Long articleId = articleStatusHistoryDTO.getArticleDTO().getId();
-  //
-  // Article article = articleRepository.findById(articleId)
-  // .orElseThrow(() -> new ResourceNotFoundException("Article", "Id", articleId.toString()));
-  //
-  //
-  // switch (article.getStatus()) {
-  // case UNDER_REVIEW:
-  // switch (articleStatusHistoryDTO.getCurrentStatus()) {
-  // case REJECTED, PUBLISHED:
-  // articleRepository.updateStatus(articleStatusHistoryDTO.getCurrentStatus(), articleId);
-  // article.setStatus(articleStatusHistoryDTO.getCurrentStatus());
-  // article.setUpdatedAt(LocalDateTime.now());
-  // articleStatusHistoryDTO = new ArticleStatusHistoryDTO(article, true, true);
-  // createStatusHistory(articleStatusHistoryDTO);
-  // break;
-  // }
-  // break;
-  // }
-  // }
-  //
-
   // Test cases related to updating status by admin
   @Test
-  void should_update_the_status_and_create_ArticleStatusHistory_UDNER_REVIEW_to_PUBLISHED() {
+  void testUpdateStatus_When_KeyTagIdExists_Status_From_UnderReview_To_Publsihed_Update_Status_Create_ArticleStatusHistory() {
 
     Long userId = 1L;
 
@@ -989,7 +965,7 @@ public class ArticleServiceTest {
   }
 
   @Test
-  void should_update_the_status_and_create_ArticleStatusHistory_UDNER_REVIEW_to_REJECTED() {
+  void testUpdateStatus_When_KeyTagIdExists_Status_From_UnderReview_To_Rejected_Update_Status_Create_ArticleStatusHistory() {
     Long userId = 1L;
 
     ArticleDTO articleDTO = ArticleDTO.builder().id(5L).build();
@@ -1013,7 +989,7 @@ public class ArticleServiceTest {
   }
 
   @Test
-  void should_throw_ResourceNotFoundException_for_updateStatus_method() {
+  void testUpdateStatus_When_KeyTagId_Does_Not_Exists_Throw_ResourceNotFoundException() {
     Long userId = 1L;
 
     ArticleDTO articleDTO = ArticleDTO.builder().id(5L).build();

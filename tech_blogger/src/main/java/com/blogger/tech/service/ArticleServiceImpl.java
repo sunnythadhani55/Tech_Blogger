@@ -58,6 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
     List<Tag> tagList = articleDTO.getTagDTOList().stream()
         .map(tagDTO -> tagRepository.findById(tagDTO.getId()).get()).collect(Collectors.toList());
 
+    
     article.setTagList(tagList);
 
     article = articleRepository.save(article);
@@ -202,7 +203,7 @@ public class ArticleServiceImpl implements ArticleService {
             createStatusHistory(articleStatusHistoryDTO);
             break;
         }
-        break;
+        break; 
     }
   }
 

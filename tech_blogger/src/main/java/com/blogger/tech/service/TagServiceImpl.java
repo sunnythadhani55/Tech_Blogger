@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.blogger.tech.dto.TagDTO;
-import com.blogger.tech.exception.ResourceAlreadyExists;
+import com.blogger.tech.exception.ResourceAlreadyExistsException;
 import com.blogger.tech.exception.ResourceNotFoundException;
 import com.blogger.tech.model.Tag;
 import com.blogger.tech.model.User;
@@ -40,7 +40,7 @@ public class TagServiceImpl implements TagService {
   @Override
   public TagDTO add(TagDTO tagDTO) {
     if (tagRepository.existsByName(tagDTO.getName())) {
-      throw new ResourceAlreadyExists("Tag");
+      throw new ResourceAlreadyExistsException("Tag");
     }
 
     Tag tag = new Tag(tagDTO, false, false);

@@ -17,8 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.blogger.tech.dto.TagDTO;
-import com.blogger.tech.enums.UserRoles;
-import com.blogger.tech.exception.ResourceAlreadyExists;
+import com.blogger.tech.enums.UserRole;
+import com.blogger.tech.exception.ResourceAlreadyExistsException;
 import com.blogger.tech.exception.ResourceNotFoundException;
 import com.blogger.tech.model.Tag;
 import com.blogger.tech.model.User;
@@ -53,11 +53,11 @@ public class TagServiceTest {
     userList = new ArrayList<>();
 
     userList.add(new User(1L, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.WRITER, null, null, null));
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.WRITER, null, null, null));
     userList.add(new User(2L, "ankitgupta@gmail.com", "Ankit", "Gupta", "Ankit123",
-        "usdasddfsdasdda", timeStamp, timeStamp, UserRoles.ADMIN, null, null, null));
+        "usdasddfsdasdda", timeStamp, timeStamp, UserRole.ADMIN, null, null, null));
     userList.add(new User(3L, "vishalsharma@gmail.com", "Vishal", "Sharma", "Vishal123",
-        "oioioioioiohhjkh", timeStamp, timeStamp, UserRoles.READER, null, null, null));
+        "oioioioioiohhjkh", timeStamp, timeStamp, UserRole.READER, null, null, null));
 
     // Creating test data as List of Tags
     tagList = new ArrayList<>();
@@ -79,8 +79,9 @@ public class TagServiceTest {
   }
 
   // FindAll method test cases
+  // testCreateTag_When_KeyNameExists_Then_ThrowsDuplicateKeyNameException
   @Test
-  void should_find_and_return_all_tags() {
+  void testGetAll_Return_All_Tags() {
     when(tagRepository.findAll()).thenReturn(tagList);
     List<TagDTO> actualTagDTOList = tagService.getAll();
     assertEquals(5, actualTagDTOList.size());
@@ -89,14 +90,14 @@ public class TagServiceTest {
 
   // Find By Id method test cases
   @Test
-  void should_find_tag_by_Id_and_return_tag() {
+  void testGetById_When_KeyIdExists_Then_Return_Tag() {
     when(tagRepository.findById(1L)).thenReturn(Optional.of(tagList.get(0)));
     TagDTO actualTagDTO = tagService.getById(1L);
     assertEquals(tagDTOList.get(0), actualTagDTO);
   }
 
   @Test
-  void should_throw_ResourceNotFoundException_when_find_tag_by_id() {
+  void testGetById_When_KeyId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     when(tagRepository.findById(20L)).thenReturn(Optional.empty());
     Exception exception =
         assertThrows(ResourceNotFoundException.class, () -> tagService.getById(20L), "Tag");
@@ -105,7 +106,7 @@ public class TagServiceTest {
 
   // Test cases related to creating new tag
   @Test
-  void should_save_one_Tag() {
+  void testAdd_When_KeyName_Unique_Then_Create_Tag() {
 
     TagDTO tagDTO = TagDTO.builder().name("Mech").build();
 
@@ -124,12 +125,13 @@ public class TagServiceTest {
   }
 
   @Test
-  void should_throw_ResourceAlreadyExistsException() {
+  void testAdd_When_Unique_KeyNameExists_Then_Throw_ResourceAlreadyExistsException() {
     when(tagRepository.existsByName("Youtube")).thenReturn(true);
 
     TagDTO tagDTO = TagDTO.builder().name("Youtube").build();
 
-    Exception exception = assertThrows(ResourceAlreadyExists.class, () -> tagService.add(tagDTO));
+    Exception exception =
+        assertThrows(ResourceAlreadyExistsException.class, () -> tagService.add(tagDTO));
     assertEquals("Tag already exists, can't create duplicate entry for the same!",
         exception.getMessage());
   }
@@ -137,7 +139,7 @@ public class TagServiceTest {
 
   // Test cases related to updating existing tag
   @Test
-  void should_update_Tag() {
+  void testUpdate_When_KeyIdExists_Then_Update_Tag() {
 
     LocalDateTime updatedTimeStamp = LocalDateTime.now();
 
@@ -159,7 +161,7 @@ public class TagServiceTest {
 
 
   @Test
-  void should_throw_ResourceNotFoundException_when_called_update_method() {
+  void testUpdate_When_KeyId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
 
     TagDTO tagDTO = TagDTO.builder().id(22L).name("Facebook").build();
 
@@ -171,7 +173,7 @@ public class TagServiceTest {
 
   // Test cases related to deleting Tag By Id
   @Test
-  void deleteTagById_ValidInput_ShouldDeleteTag() {
+  void testDeleteById_When_KeyIdExists_Then_Delete_Tag() {
     Long id = 50L;
 
     when(tagRepository.existsById(id)).thenReturn(true);
@@ -180,7 +182,7 @@ public class TagServiceTest {
   }
 
   @Test
-  void deleteTagById_InValidInput_Shouldthrow_ResourceNotFoundException() {
+  void testDeleteById_When_KeyId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     Long id = 50L;
     when(tagRepository.existsById(id)).thenReturn(false);
 
@@ -191,12 +193,12 @@ public class TagServiceTest {
 
   // Test cases for Tag Subscription
   @Test
-  void subscribe() {
+  void testSubscribe_When_KeyTagIdExists_Then_Subscribe_Tag() {
     Long userId = 1L;
     Long tagId = 1L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     Tag tag = new Tag(1L, "Youtube", timeStamp, timeStamp, userList, null);
 
@@ -210,12 +212,12 @@ public class TagServiceTest {
   }
 
   @Test
-  void should_throw_exception_when_tag_does_exists_in_subscribe_method() {
+  void testSubscribe_When_KeyTagId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     Long userId = 1L;
     Long tagId = 50L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -228,12 +230,12 @@ public class TagServiceTest {
 
   // Test cases for Tag UnSubscription
   @Test
-  void unsubscribe() {
+  void testUnSubscribe_When_KeyTagIdExists_Then_UnSubscribe_Tag() {
     Long userId = 1L;
     Long tagId = 1L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     Tag tag = new Tag(1L, "Youtube", timeStamp, timeStamp, userList, null);
 
@@ -247,12 +249,12 @@ public class TagServiceTest {
   }
 
   @Test
-  void should_throw_exception_when_tag_does_exists_in_unsubscribe_method() {
+  void testUnSubscribe_When_KeyTagId_Does_Not_Exists_Then_Throw_ResourceNotFoundException() {
     Long userId = 1L;
     Long tagId = 50L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, null, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, null, null, null);
 
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -265,14 +267,13 @@ public class TagServiceTest {
 
   // Test cases related to getAllSubscribed method
   @Test
-  void should_return_list_of_tags_subscribed_by_user() {
+  void testGetAllSubscribed_Return_All_Tags_Subscribed_By_User() {
     Long userId = 1L;
 
     User user = new User(userId, "sunnythadhani87@gmail.com", "Sunny", "Thadhani", "Sunny123",
-        "dhaskhdilldalskk", timeStamp, timeStamp, UserRoles.READER, tagList, null, null);
+        "dhaskhdilldalskk", timeStamp, timeStamp, UserRole.READER, tagList, null, null);
 
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-
 
     List<TagDTO> expectedTagDTOList = tagDTOList;
     List<TagDTO> actualTagDTOList = tagService.getAllSubscribed(userId);
